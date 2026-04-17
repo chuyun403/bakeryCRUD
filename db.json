@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Croissant",
+      "price": 3.5,
+      "category": "Pastry",
+      "stock": 12
+    },
+    {
+      "id": "2",
+      "name": "Sourdough Bread",
+      "price": 6,
+      "category": "Bread",
+      "stock": 5
+    },
+    {
+      "id": "03a7",
+      "name": "aaa",
+      "price": 0.1,
+      "category": "ccc",
+      "stock": 1
+    },
+    {
+      "id": "7085",
+      "name": "cake",
+      "price": 8,
+      "category": "cake",
+      "stock": 6
+    },
+    {
+      "id": "4971",
+      "name": "puffy",
+      "price": 4,
+      "category": "puff",
+      "stock": 8
+    },
+    {
+      "id": "3075",
+      "name": "a",
+      "price": 1,
+      "category": "c",
+      "stock": 1
+    },
+    {
+      "id": "2a5b",
+      "name": "Cookie",
+      "price": 6.5,
+      "category": "cookie",
+      "stock": 2
+    },
+    {
+      "id": "235d",
+      "name": "a",
+      "price": 2,
+      "category": "a",
+      "stock": 1
+    },
+    {
+      "name": "Pretzel",
+      "price": 3.2,
+      "category": "Breads",
+      "stock": 5,
+      "id": "3a5f"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

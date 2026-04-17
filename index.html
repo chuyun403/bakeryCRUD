@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Crust | Inventory Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --scandi-black: #2e3440;
+            --scandi-slate: #4c566a;
+            --scandi-snow: #eceff4;
+            --scandi-white: #ffffff;
+            --scandi-accent: #81a1c1;
+            /* Fjord Blue */
+            --scandi-warn: #bf616a;
+            /* Muted Red */
+            --scandi-success: #a3be8c;
+            /* Sage Green */
+            --border-radius: 4px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fb;
+            color: var(--scandi-black);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .bakery-badge {
+            background: var(--scandi-accent);
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            border-radius: 20px;
+        }
+
+        /* Form Styling */
+        .card {
+            background: var(--scandi-white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            margin-bottom: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: end;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--scandi-slate);
+            text-transform: uppercase;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #d8dee9;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--scandi-accent);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--scandi-black);
+            color: white;
+            padding: 11px 20px;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.8;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--scandi-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #e5e9f0;
+            text-align: left;
+            padding: 15px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--scandi-slate);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e9f0;
+            font-size: 0.95rem;
+        }
+
+        .table-info {
+            background-color: #f8f9fb;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            margin-left: 5px;
+        }
+
+        .btn-warning {
+            background: #ebcb8b;
+            color: #5e4a1d;
+        }
+
+        .btn-danger {
+            background: #bf616a;
+            color: white;
+        }
+
+        /* Feedback Toast Placeholder */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        /* Low stock row highlight */
+        .low-stock-row {
+            background-color: #fdf2f2 !important;
+            /* Very soft muted red */
+        }
+
+        /* Low stock badge */
+        .badge-warn {
+            background-color: var(--scandi-warn);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <span class="bakery-badge">Inventory Management</span>
+            <h1>Golden Crust</h1>
+        </header>
+        <div class="card" style="margin-bottom: 20px; padding: 15px;">
+            <div class="form-group">
+                <label for="searchInput">Search Inventory</label>
+                <input type="text" id="searchInput" placeholder="Search by name or category..."
+                    oninput="handleSearch()">
+            </div>
+        </div>
+
+        <div id="paginationControls" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+        </div>
+            <div class="card">
+                <form id="productForm" onsubmit="saveProduct(event)">
+                    <input type="hidden" id="productId">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Product Name</label>
+                        <input type="text" id="name" placeholder="e.g. Sourdough Loaf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" placeholder="e.g. Breads" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price ($)</label>
+                        <input type="number" id="price" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock">Stock</label>
+                        <input type="number" id="stock" placeholder="0" required>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: right;">
+                    <button type="button" onclick="resetForm()"
+                        style="background:none; color: var(--scandi-slate); margin-right: 15px;">Clear</button>
+                    <button type="submit" id="submitBtn" class="btn-primary">Add Product</button>
+                </div>
+            </form>
+        </div>
+
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

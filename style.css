@@ -1,0 +1,32 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 600px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+button {
+    margin-bottom: 15px;
+    padding: 8px 12px;
+}
+
+.btn-light {
+    background-color: var(--scandi-snow);
+    color: var(--scandi-slate);
+    border: 1px solid #d8dee9;
+}
+.btn-light:hover {
+    background-color: #e5e9f0;
+}
